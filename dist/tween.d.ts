@@ -1,0 +1,3 @@
+export declare type TweenFunc = "Linear" | "Quad.easeIn" | "Quad.easeOut" | "Quad.easeInOut" | "Cubic.easeIn" | "Cubic.easeOut" | "Cubic.easeInOut" | "Quart.easeIn" | "Quart.easeOut" | "Quart.easeInOut" | "Quint.easeIn" | "Quint.easeOut" | "Quint.easeInOut" | "Sine.easeIn" | "Sine.easeOut" | "Sine.easeInOut" | "Expo.easeIn" | "Expo.easeOut" | "Expo.easeInOut" | "Circ.easeIn" | "Circ.easeOut" | "Circ.easeInOut" | "Elastic.easeIn" | "Elastic.easeOut" | "Elastic.easeInOut" | "Back.easeIn" | "Back.easeOut" | "Back.easeInOut" | "Bounce.easeIn" | "Bounce.easeOut" | "Bounce.easeInOut";
+declare const _default: (tween: string) => any;
+export default _default;

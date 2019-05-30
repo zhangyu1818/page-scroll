@@ -1,0 +1,15 @@
+{
+  "name": "page-scroll",
+  "version": "1.0.0",
+  "description": "",
+  "main": ".umirc.library.js",
+  "scripts": {
+    "build": "npx umi-lib build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "umi-library": "^1.6.0"
+  }
+}
