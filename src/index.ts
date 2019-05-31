@@ -7,6 +7,7 @@ interface IOptions {
   el: string | HTMLElement;
   itemClass: string;
   currentClass: string;
+  tween: TweenFunc;
 }
 
 class PageScroll {
@@ -23,15 +24,21 @@ class PageScroll {
   private animateTimer: number = 0;
   private duration: number = 0.6;
   private momentum: number = 1;
-  private tween: TweenFunc = "Quad.easeOut";
+  private readonly tween: TweenFunc;
   constructor(options: IOptions) {
-    const { el, itemClass, currentClass } = options;
+    const {
+      el,
+      itemClass = "item",
+      currentClass = "current",
+      tween = "Quad.easeOut"
+    } = options;
     if (typeof el === "object") this.wrap = el;
     else {
       const temp = document.querySelector<HTMLElement>(el);
       if (temp) this.wrap = temp;
       else throw new Error("el not found");
     }
+    this.tween = tween;
     this.currentClass = currentClass;
     this.pages = Array.from(
       this.wrap.querySelectorAll<HTMLElement>(`.${itemClass}`)
@@ -45,8 +52,6 @@ class PageScroll {
     this.wrap.addEventListener("touchend", this.onScrollEnd);
   }
   private onScrollStart = (event: TouchEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
     if (this.animateTimer) cancelAnimationFrame(this.animateTimer);
     const { timeStamp, touches } = event;
     const { pageY } = touches[0];
@@ -55,8 +60,6 @@ class PageScroll {
   };
   private onScrolling = (event: TouchEvent) => {
     if (!this.touchInfo.start.isScroll) return;
-    event.stopPropagation();
-    event.preventDefault();
     const { timeStamp, touches } = event;
     const { pageY } = touches[0];
     this.touchInfo.move = { pos: pageY, timeStamp, isScroll: true };
@@ -64,10 +67,8 @@ class PageScroll {
     this.currentOffset = tempOffset + this.prevOffset;
     this.wrap.style.transform = `translate3d(0,${this.currentOffset}px,0)`;
   };
-  private onScrollEnd = (event: TouchEvent) => {
+  private onScrollEnd = () => {
     if (!this.touchInfo.start.isScroll) return;
-    event.stopPropagation();
-    event.preventDefault();
     this.touchInfo.start.isScroll = false;
     this.prevOffset = this.currentOffset;
     if (!this.touchInfo.move.isScroll)

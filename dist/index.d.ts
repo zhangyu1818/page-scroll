@@ -1,7 +1,9 @@
+import { TweenFunc } from "./tween";
 interface IOptions {
     el: string | HTMLElement;
     itemClass: string;
     currentClass: string;
+    tween: TweenFunc;
 }
 declare class PageScroll {
     private readonly wrap;
@@ -14,7 +16,7 @@ declare class PageScroll {
     private animateTimer;
     private duration;
     private momentum;
-    private tween;
+    private readonly tween;
     constructor(options: IOptions);
     private onScrollStart;
     private onScrolling;

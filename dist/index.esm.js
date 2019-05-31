@@ -269,11 +269,8 @@ var PageScroll = function PageScroll(options) {
   this.animateTimer = 0;
   this.duration = 0.6;
   this.momentum = 1;
-  this.tween = "Quad.easeOut";
 
   this.onScrollStart = function (event) {
-    event.stopPropagation();
-    event.preventDefault();
     if (_this.animateTimer) cancelAnimationFrame(_this.animateTimer);
     var timeStamp = event.timeStamp,
         touches = event.touches;
@@ -288,8 +285,6 @@ var PageScroll = function PageScroll(options) {
 
   this.onScrolling = function (event) {
     if (!_this.touchInfo.start.isScroll) return;
-    event.stopPropagation();
-    event.preventDefault();
     var timeStamp = event.timeStamp,
         touches = event.touches;
     var pageY = touches[0].pageY;
@@ -303,10 +298,8 @@ var PageScroll = function PageScroll(options) {
     _this.wrap.style.transform = "translate3d(0,".concat(_this.currentOffset, "px,0)");
   };
 
-  this.onScrollEnd = function (event) {
+  this.onScrollEnd = function () {
     if (!_this.touchInfo.start.isScroll) return;
-    event.stopPropagation();
-    event.preventDefault();
     _this.touchInfo.start.isScroll = false;
     _this.prevOffset = _this.currentOffset;
     if (!_this.touchInfo.move.isScroll) _this.touchInfo.move.pos = _this.touchInfo.start.pos;
@@ -368,12 +361,17 @@ var PageScroll = function PageScroll(options) {
   };
 
   var el = options.el,
-      itemClass = options.itemClass,
-      currentClass = options.currentClass;
+      _options$itemClass = options.itemClass,
+      itemClass = _options$itemClass === void 0 ? "item" : _options$itemClass,
+      _options$currentClass = options.currentClass,
+      currentClass = _options$currentClass === void 0 ? "current" : _options$currentClass,
+      _options$tween = options.tween,
+      tween = _options$tween === void 0 ? "Quad.easeOut" : _options$tween;
   if (_typeof(el) === "object") this.wrap = el;else {
     var temp = document.querySelector(el);
     if (temp) this.wrap = temp;else throw new Error("el not found");
   }
+  this.tween = tween;
   this.currentClass = currentClass;
   this.pages = Array.from(this.wrap.querySelectorAll(".".concat(itemClass)));
   this.pages.forEach(function (item, index) {
